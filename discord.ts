@@ -43,7 +43,7 @@ export class DiscordBot {
           });
         }
 
-        if (message.content === "Botヘルプ") {
+        if (message.content === "Botヘルプ" || message.content === "botヘルプ") {
           bot.helpers.sendMessage(message.channelId, {
             content: Object.keys(MessageHandler).join("\n"),
           });
