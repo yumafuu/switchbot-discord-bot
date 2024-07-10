@@ -4,37 +4,31 @@ type Event = {
 };
 
 export const MessageHandler: { [key: string]: Event } = {
-  "電気消して": {
+  "電気けして": {
     methods: [
       { method: "StandLightActive", args: [false] },
       { method: "LivingRoomLightActive", args: [false] },
     ],
-    message: "消したよ",
+    message: "けしたよ",
   },
-  "電気つけて": {
+  "リラックスモード": {
     methods: [
       { method: "StandLightActive", args: [true] },
-      { method: "LivingRoomLightActive", args: [true] },
+      { method: "LivingRoomLightActive", args: [false] },
     ],
-    message: "つけたよ",
+    message: "リラックスしてね",
   },
-  "スタンド消して": {
+  "スタンドけして": {
     methods: [
       { method: "StandLightActive", args: [false] },
     ],
-    message: "消したよ",
+    message: "けしたよ",
   },
-  "スタンドつけて": {
-    methods: [
-      { method: "StandLightActive", args: [true] },
-    ],
-    message: "つけたよ",
-  },
-  "リビング消して": {
+  "リビングけして": {
     methods: [
       { method: "LivingRoomLightActive", args: [false] },
     ],
-    message: "消したよ",
+    message: "けしたよ",
   },
   "リビングつけて": {
     methods: [
@@ -60,14 +54,7 @@ export const MessageHandler: { [key: string]: Event } = {
     ],
     message: "つけたよ",
   },
-  "冷房消して": {
-    methods: [{
-      method: "AirConditionerActive",
-      args: [{ active: false, temperature: 25, mode: "cool", speed: "auto" }],
-    }],
-    message: "消したよ",
-  },
-  "エアコン消して": {
+  "エアコンけして": {
     methods: [
       {
         method: "AirConditionerActive",
