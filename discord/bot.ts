@@ -7,7 +7,7 @@ import {
   User,
 } from "https://deno.land/x/discordeno@18.0.1/mod.ts";
 import { SwitchBot } from "../switch-bot/switch-bot.ts";
-import { Handler } from "./handler/handler.ts";
+import { PayHandler, SwitchBotHandler } from "./handler/index.ts";
 
 export type Context = {
   DiscordBot: DiscordBot;
@@ -54,26 +54,30 @@ export class DiscordBot {
           SwitchBot: this.switchBot,
           Payload: {
             bot,
-            UserId: message.member.id,
+            UserId: message.tag,
             Message: message.content,
             Channel: message.channelId,
           },
         };
 
-        console.log({ ctx });
 
+        console.log({ message })
         if (message.isFromBot) return;
 
         console.info(
           JSON.stringify({
             timestamp: new Date().toISOString(),
-            id: Number(message.member.id),
             username: message.tag,
             content: message.content,
           }),
         );
-        const handler = new Handler(ctx);
-        await handler.Handle();
+        const switchBotHandler = new SwitchBotHandler(ctx);
+        const payHandler = new PayHandler(ctx);
+
+        Promise.all([
+          switchBotHandler.Handle(),
+          payHandler.Handle(),
+        ]);
       },
     };
   }

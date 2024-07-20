@@ -3,7 +3,7 @@ import { JSONFile } from "npm:lowdb/node";
 
 export interface User {
   id: string;
-  credits: number;
+  credit: number;
 }
 
 export interface dbSchema {
@@ -12,7 +12,4 @@ export interface dbSchema {
 }
 
 const adapter = new JSONFile<dbSchema>("./db.json");
-export const DB = new Low<dbSchema>(adapter, {
-  remittances: [],
-  users: [],
-});
+export const DB = new Low<dbSchema>(adapter, { remittances: [], users: [] });

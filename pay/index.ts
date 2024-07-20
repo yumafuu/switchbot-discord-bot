@@ -1,2 +1,3 @@
 export { SendCredit } from "./send-credit.ts";
-export { GetPartner } from "./user.ts";
+export { ShowCredit } from "./show-credit.ts";
+export { GetPartner, GetMe } from "./user.ts";
