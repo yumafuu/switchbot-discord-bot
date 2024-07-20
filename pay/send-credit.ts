@@ -12,12 +12,11 @@ const addRemittance = async (
   to: string,
   credit: number,
 ) => {
-
-  console.log(DB.data);
   DB.data.remittances.push({
-    from, to, credit,
+    from,
+    to,
+    credit,
   });
-  console.log(DB.data);
 };
 
 const exchangeCredits = async (
@@ -26,7 +25,6 @@ const exchangeCredits = async (
   credit: number,
 ) => {
   DB.data.users = DB.data.users.map((user: User) => {
-    console.log({ user, from, to })
     if (user.id === from) {
       user.credit -= credit;
     }

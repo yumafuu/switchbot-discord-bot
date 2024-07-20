@@ -8,6 +8,7 @@ import {
 } from "https://deno.land/x/discordeno@18.0.1/mod.ts";
 import { SwitchBot } from "../switch-bot/switch-bot.ts";
 import { PayHandler, SwitchBotHandler } from "./handler/index.ts";
+import { Logger } from "../logger/logger.ts";
 
 export type Context = {
   DiscordBot: DiscordBot;
@@ -46,7 +47,7 @@ export class DiscordBot {
   private eventHander() {
     return {
       ready: (_bot: Bot, payload: { user: User }) => {
-        console.log(`${payload.user.username} is ready!`);
+        Logger.debug(`${payload.user.username} is ready!`);
       },
       messageCreate: async (bot: Bot, message: Message) => {
         const ctx: Context = {
@@ -60,11 +61,9 @@ export class DiscordBot {
           },
         };
 
-
-        console.log({ message })
         if (message.isFromBot) return;
 
-        console.info(
+        Logger.info(
           JSON.stringify({
             timestamp: new Date().toISOString(),
             username: message.tag,

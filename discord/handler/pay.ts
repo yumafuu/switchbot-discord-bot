@@ -1,10 +1,5 @@
 import { Context } from "../bot.ts";
-import {
-  GetPartner,
-  GetMe,
-  SendCredit,
-  ShowCredit,
-} from "../../pay/index.ts";
+import { GetMe, GetPartner, SendCredit, ShowCredit } from "../../pay/index.ts";
 
 export class PayHandler {
   ctx: Context;
@@ -28,7 +23,7 @@ export class PayHandler {
       await SendCredit(from, to, credit);
       this.ctx.DiscordBot.sendMessage(
         this.ctx.Payload.Channel,
-        `${credit}円送りました`
+        `${credit}円送りました`,
       );
     }
 
@@ -50,7 +45,7 @@ export class PayHandler {
       this.ctx.DiscordBot.sendMessage(
         this.ctx.Payload.Channel,
         users.map((user) => `${user.id}: ${user.credit}円`).join("\n"),
-      )
+      );
     }
   }
 }
