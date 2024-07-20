@@ -1,6 +1,8 @@
+import config from "../config.ts";
+
 export const Users = [
-  "yumaaaaa_#0",
-  "chiro0583#0",
+  config.DiscordUser1Id,
+  config.DiscordUser2Id,
 ];
 
 export const GetPartner = (id: string): string => {

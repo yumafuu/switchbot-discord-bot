@@ -8,6 +8,8 @@ type Config = {
   SwitchBotDeviceStandLightTop: string;
   SwitchBotDeviceStandLightBottom: string;
   DiscordBotToken: string;
+  DiscordUser1Id: string;
+  DiscordUser2Id: string;
 };
 
 const config: Config = {
@@ -18,6 +20,8 @@ const config: Config = {
   SwitchBotDeviceStandLightTop: env.SWITCHBOT_DEVICE_STAND_LIGHT_TOP,
   SwitchBotDeviceStandLightBottom: env.SWITCHBOT_DEVICE_STAND_LIGHT_BOTTOM,
   DiscordBotToken: env.DISCORD_BOT_TOKEN,
+  DiscordUser1Id: env.DISCORD_USER_1_ID,
+  DiscordUser2Id: env.DISCORD_USER_2_ID,
 };
 
 Object.entries(config).forEach(([key, value]) => {
