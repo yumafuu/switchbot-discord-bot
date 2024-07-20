@@ -1,5 +1,5 @@
-import { SwitchBot } from "./switch-bot.ts";
-import { DiscordBot } from "./discord.ts";
+import { SwitchBot } from "./switch-bot/switch-bot.ts";
+import { DiscordBot } from "./discord/bot.ts";
 import config from "./config.ts";
 
 const switchBot = new SwitchBot(
