@@ -65,6 +65,10 @@ ${
 
     if (message === "支払いリセット") {
       this.ctx.Pay.Reset();
+      this.ctx.DiscordBot.sendMessage(
+        this.ctx.Payload.Channel,
+        "支払いをリセットしました",
+      );
     }
   }
 }
