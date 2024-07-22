@@ -71,7 +71,7 @@ export class SwitchBot {
     let s = "turnOff";
     if (on) s = "turnOn";
 
-    return Promise.all([
+    return await Promise.all([
       this.command(this.devices.standLightTop, s, "default"),
       this.command(this.devices.standLightBottom, s, "default"),
     ]);

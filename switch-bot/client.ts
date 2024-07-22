@@ -2,9 +2,10 @@ import * as crypto from "node:crypto";
 import { Buffer } from "node:buffer";
 import * as uuid from "jsr:@std/uuid";
 
+type body = { [key: string]: string | number | boolean };
 export interface SwitchBotClient {
-  get(path: string): Promise<any>;
-  post(path: string, data: any): Promise<any>;
+  get(path: string): Promise<void>;
+  post(path: string, data: body): Promise<void>;
   headers(): { [key: string]: string };
 }
 
@@ -30,7 +31,7 @@ export class SwitchBotClient {
     return await res.json();
   }
 
-  async post(path: string, data: any) {
+  async post(path: string, data: body) {
     const url = new URL(path, this.baseUrl);
 
     const res = await fetch(url, {
