@@ -5,7 +5,7 @@ import {
   Message,
   startBot,
   User,
-} from "https://deno.land/x/discordeno@18.0.1/mod.ts";
+} from "discordeno";
 import { SwitchBot } from "../switch-bot/switch-bot.ts";
 import { Pay } from "../pay/pay.ts";
 import { PayHandler, SwitchBotHandler } from "./handler/index.ts";

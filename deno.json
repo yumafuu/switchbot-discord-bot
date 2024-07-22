@@ -1,5 +1,10 @@
 {
   "tasks": {
     "dev": "deno run -A --env --watch main.ts"
+  },
+  "imports": {
+    "lowdb": "https://esm.sh/lowdb@7.0.1",
+    "lowdb/": "https://esm.sh/lowdb@7.0.1/",
+    "discordeno": "https://deno.land/x/discordeno@18.0.1/mod.ts"
   }
 }

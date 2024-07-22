@@ -1,5 +1,5 @@
-import { Low } from "https://esm.sh/lowdb@7.0.1";
-import { JSONFile } from "https://esm.sh/lowdb@7.0.1/node";
+import { Low } from "lowdb";
+import { JSONFile } from "lowdb/node";
 import { dbSchema } from "./type.ts";
 
 export class DB {
