@@ -7,12 +7,14 @@ import {
   User,
 } from "https://deno.land/x/discordeno@18.0.1/mod.ts";
 import { SwitchBot } from "../switch-bot/switch-bot.ts";
+import { Pay } from "../pay/pay.ts";
 import { PayHandler, SwitchBotHandler } from "./handler/index.ts";
 import { Logger } from "../logger/logger.ts";
 
 export type Context = {
   DiscordBot: DiscordBot;
   SwitchBot: SwitchBot;
+  Pay: Pay;
   Payload: {
     bot: Bot;
     UserId: string;
@@ -24,9 +26,11 @@ export type Context = {
 export class DiscordBot {
   private switchBot: SwitchBot;
   private bot: Bot;
+  private pay: Pay;
 
-  constructor(switchBot: SwitchBot, token: string) {
+  constructor(switchBot: SwitchBot, pay: Pay, token: string) {
     this.switchBot = switchBot;
+    this.pay = pay;
     this.bot = createBot({
       token,
       intents: Intents.Guilds | Intents.GuildMessages | Intents.MessageContent,
@@ -49,15 +53,16 @@ export class DiscordBot {
       ready: (_bot: Bot, payload: { user: User }) => {
         Logger.debug(`${payload.user.username} is ready!`);
       },
-      messageCreate: async (bot: Bot, message: Message) => {
+      messageCreate: (bot: Bot, message: Message) => {
         const ctx: Context = {
           DiscordBot: this,
           SwitchBot: this.switchBot,
+          Pay: this.pay,
           Payload: {
             bot,
             UserId: message.tag,
             Message: message.content,
-            Channel: message.channelId,
+            Channel: String(message.channelId),
           },
         };
 

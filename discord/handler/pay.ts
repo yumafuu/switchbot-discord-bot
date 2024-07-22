@@ -1,5 +1,4 @@
 import { Context } from "../bot.ts";
-import { GetMe, GetPartner, SendCredit, ShowCredit } from "../../pay/index.ts";
 
 export class PayHandler {
   ctx: Context;
@@ -17,10 +16,10 @@ export class PayHandler {
 
     if (payMatch) {
       const credit = Number(payMatch[1]);
-      const from = GetMe(messageSender);
-      const to = GetPartner(messageSender);
+      const from = this.ctx.Pay.GetMe(messageSender);
+      const to = this.ctx.Pay.GetPartner(messageSender);
 
-      await SendCredit(from, to, credit);
+      await this.ctx.Pay.SendCredit(from, to, credit);
       this.ctx.DiscordBot.sendMessage(
         this.ctx.Payload.Channel,
         `${credit}円送りました`,
@@ -29,9 +28,9 @@ export class PayHandler {
 
     if (payGet) {
       const credit = Number(payGet[1]);
-      const from = GetPartner(messageSender);
-      const to = GetMe(messageSender);
-      await SendCredit(from, to, credit);
+      const from = this.ctx.Pay.GetPartner(messageSender);
+      const to = this.ctx.Pay.GetMe(messageSender);
+      await this.ctx.Pay.SendCredit(from, to, credit);
 
       this.ctx.DiscordBot.sendMessage(
         this.ctx.Payload.Channel,
@@ -39,13 +38,33 @@ export class PayHandler {
       );
     }
 
-    if (message === "残高確認") {
-      const users = await ShowCredit();
+    if (message === "支払い確認") {
+      const users = await this.ctx.Pay.GetUsers();
+
+      const credits = users.map((user) => `${user.id}: ${user.credit}円`).join(
+        "\n",
+      );
+      const negativeUser = users.find((user) => user.credit < 0);
+      const message = `現在
+\`\`\`
+${credits}
+\`\`\`
+
+${
+        negativeUser
+          ? `${negativeUser.id}が${-negativeUser.credit}円払ってください`
+          : ""
+      }
+`;
 
       this.ctx.DiscordBot.sendMessage(
         this.ctx.Payload.Channel,
-        users.map((user) => `${user.id}: ${user.credit}円`).join("\n"),
+        message,
       );
+    }
+
+    if (message === "支払いリセット") {
+      this.ctx.Pay.Reset();
     }
   }
 }

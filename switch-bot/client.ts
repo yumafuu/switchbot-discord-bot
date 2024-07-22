@@ -2,6 +2,12 @@ import * as crypto from "node:crypto";
 import { Buffer } from "node:buffer";
 import * as uuid from "jsr:@std/uuid";
 
+export interface SwitchBotClient {
+  get(path: string): Promise<any>;
+  post(path: string, data: any): Promise<any>;
+  headers(): { [key: string]: string };
+}
+
 export class SwitchBotClient {
   private token: string;
   private secret: string;
