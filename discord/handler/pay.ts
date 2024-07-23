@@ -1,45 +1,39 @@
 import { Context } from "../bot.ts";
 
 export class PayHandler {
-  ctx: Context;
-
-  constructor(ctx: Context) {
-    this.ctx = ctx;
-  }
-
-  async Handle() {
-    const message = this.ctx.Payload.Message;
-    const messageSender = this.ctx.Payload.UserId;
+  async Handle(ctx: Context) {
+    const message = ctx.Payload.Message;
+    const messageSender = ctx.Payload.UserId;
 
     const payMatch = message.match(/(\d+)円送る/);
     const payGet = message.match(/(\d+)円もらう/);
 
     if (payMatch) {
       const credit = Number(payMatch[1]);
-      const from = this.ctx.Pay.GetMe(messageSender);
-      const to = this.ctx.Pay.GetPartner(messageSender);
+      const from = ctx.Pay.GetMe(messageSender);
+      const to = ctx.Pay.GetPartner(messageSender);
 
-      await this.ctx.Pay.SendCredit(from, to, credit);
-      this.ctx.DiscordBot.sendMessage(
-        this.ctx.Payload.Channel,
+      await ctx.Pay.SendCredit(from, to, credit);
+      ctx.DiscordBot.sendMessage(
+        ctx.Payload.Channel,
         `${credit}円送りました`,
       );
     }
 
     if (payGet) {
       const credit = Number(payGet[1]);
-      const from = this.ctx.Pay.GetPartner(messageSender);
-      const to = this.ctx.Pay.GetMe(messageSender);
-      await this.ctx.Pay.SendCredit(from, to, credit);
+      const from = ctx.Pay.GetPartner(messageSender);
+      const to = ctx.Pay.GetMe(messageSender);
+      await ctx.Pay.SendCredit(from, to, credit);
 
-      this.ctx.DiscordBot.sendMessage(
-        this.ctx.Payload.Channel,
+      ctx.DiscordBot.sendMessage(
+        ctx.Payload.Channel,
         `${credit}円受け取りました`,
       );
     }
 
     if (message === "支払い確認") {
-      const users = await this.ctx.Pay.GetUsers();
+      const users = await ctx.Pay.GetUsers();
 
       const credits = users.map((user) => `${user.id}: ${user.credit}円`).join(
         "\n",
@@ -57,16 +51,16 @@ ${
       }
 `;
 
-      this.ctx.DiscordBot.sendMessage(
-        this.ctx.Payload.Channel,
+      ctx.DiscordBot.sendMessage(
+        ctx.Payload.Channel,
         message,
       );
     }
 
     if (message === "支払いリセット") {
-      this.ctx.Pay.Reset();
-      this.ctx.DiscordBot.sendMessage(
-        this.ctx.Payload.Channel,
+      ctx.Pay.Reset();
+      ctx.DiscordBot.sendMessage(
+        ctx.Payload.Channel,
         "支払いをリセットしました",
       );
     }

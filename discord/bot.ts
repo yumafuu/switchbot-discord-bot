@@ -75,12 +75,12 @@ export class DiscordBot {
             content: message.content,
           }),
         );
-        const switchBotHandler = new SwitchBotHandler(ctx);
-        const payHandler = new PayHandler(ctx);
+        const switchBotHandler = new SwitchBotHandler();
+        const payHandler = new PayHandler();
 
         Promise.all([
-          switchBotHandler.Handle(),
-          payHandler.Handle(),
+          switchBotHandler.Handle(ctx),
+          payHandler.Handle(ctx),
         ]);
       },
     };
