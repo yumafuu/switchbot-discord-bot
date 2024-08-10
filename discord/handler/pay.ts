@@ -5,7 +5,7 @@ export class PayHandler {
     const message = ctx.Payload.Message;
     const messageSender = ctx.Payload.UserId;
 
-    const payMatch = message.match(/(\d+)円送る/);
+    const payMatch = message.match(/(\d+)円(送る|おくる|払う)/);
     const payGet = message.match(/(\d+)円もらう/);
 
     if (payMatch) {

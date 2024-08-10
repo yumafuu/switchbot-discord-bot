@@ -1,11 +1,4 @@
-import {
-  Bot,
-  createBot,
-  Intents,
-  Message,
-  startBot,
-  User,
-} from "discordeno";
+import { Bot, createBot, Intents, Message, startBot, User } from "discordeno";
 import { SwitchBot } from "../switch-bot/switch-bot.ts";
 import { Pay } from "../pay/pay.ts";
 import { PayHandler, SwitchBotHandler } from "./handler/index.ts";
