@@ -51,6 +51,18 @@ export class SwitchBotHandler {
     ctx.DiscordBot.sendMessage(ctx.Payload.Channel, "あいよ");
   };
 
+  DryOn = async (ctx: Context) => {
+    await Promise.all([
+      ctx.SwitchBot.AirConditionerActive({
+        active: true,
+        temperature: 25,
+        mode: "dry",
+        speed: "high",
+      }),
+    ]);
+    ctx.DiscordBot.sendMessage(ctx.Payload.Channel, "あいよ");
+  }
+
   events: { [key: string]: EventFunc } = {
     "電気けして": this.LightOff,
     "リラックスモード": this.RelaxMode,
@@ -72,5 +84,4 @@ export class SwitchBotHandler {
 
     await func(ctx);
   }
-
 }

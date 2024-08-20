@@ -18,6 +18,7 @@ export class PayHandler {
         ctx.Payload.Channel,
         `${credit}円送りました`,
       );
+      await this.notifyCurrentStatus(ctx);
     }
 
     if (payGet) {
@@ -30,31 +31,11 @@ export class PayHandler {
         ctx.Payload.Channel,
         `${credit}円受け取りました`,
       );
+      await this.notifyCurrentStatus(ctx);
     }
 
     if (message === "支払い確認") {
-      const users = await ctx.Pay.GetUsers();
-
-      const credits = users.map((user) => `${user.id}: ${user.credit}円`).join(
-        "\n",
-      );
-      const negativeUser = users.find((user) => user.credit < 0);
-      const message = `現在
-\`\`\`
-${credits}
-\`\`\`
-
-${
-        negativeUser
-          ? `${negativeUser.id}が${-negativeUser.credit}円払ってください`
-          : ""
-      }
-`;
-
-      ctx.DiscordBot.sendMessage(
-        ctx.Payload.Channel,
-        message,
-      );
+      await this.notifyCurrentStatus(ctx);
     }
 
     if (message === "支払いリセット") {
@@ -63,6 +44,32 @@ ${
         ctx.Payload.Channel,
         "支払いをリセットしました",
       );
+
+      await this.notifyCurrentStatus(ctx);
     }
+  }
+
+  async notifyCurrentStatus(ctx: Context) {
+    const users = await ctx.Pay.GetUsers();
+    const credits = users.map((user) => `${user.id}: ${user.credit}円`).join(
+      "\n",
+    );
+    const negativeUser = users.find((user) => user.credit < 0);
+    const message = `現在
+\`\`\`
+${credits}
+\`\`\`
+
+${
+      negativeUser
+        ? `${negativeUser.id}が${-negativeUser.credit}円払ってください`
+        : ""
+    }
+`;
+
+    ctx.DiscordBot.sendMessage(
+      ctx.Payload.Channel,
+      message,
+    );
   }
 }
