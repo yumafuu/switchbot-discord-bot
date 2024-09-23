@@ -8,7 +8,7 @@ export class DB {
   constructor() {
     this.db = new Low<dbSchema>(
       new JSONFile<dbSchema>("./db.json"),
-      { remittances: [], users: [] },
+      { remittances: [], users: [], pillChecks: [] },
     );
   }
 

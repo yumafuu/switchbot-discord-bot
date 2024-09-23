@@ -9,7 +9,13 @@ export interface Remittance {
   credit: number;
 }
 
+export interface PillCheck {
+  date: string;
+  taken: boolean;
+}
+
 export interface dbSchema {
   remittances: Remittance[];
   users: User[];
+  pillChecks: PillCheck[];
 }

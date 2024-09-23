@@ -1,13 +1,15 @@
 import { Bot, createBot, Intents, Message, startBot, User } from "discordeno";
 import { SwitchBot } from "../switch-bot/switch-bot.ts";
 import { Pay } from "../pay/pay.ts";
-import { PayHandler, SwitchBotHandler } from "./handler/index.ts";
+import { Pill } from "../pill/pill.ts";
+import { PayHandler, SwitchBotHandler, PillHandler } from "./handler/index.ts";
 import { Logger } from "../logger/logger.ts";
 
 export type Context = {
   DiscordBot: DiscordBot;
   SwitchBot: SwitchBot;
   Pay: Pay;
+  Pill: Pill;
   Payload: {
     bot: Bot;
     UserId: string;
@@ -19,11 +21,15 @@ export type Context = {
 export class DiscordBot {
   private switchBot: SwitchBot;
   private bot: Bot;
+  private pill: Pill;
   private pay: Pay;
 
-  constructor(switchBot: SwitchBot, pay: Pay, token: string) {
+  private pillCheckChannelID = String(1285366592095387710n);
+
+  constructor(switchBot: SwitchBot, pay: Pay, pill: Pill, token: string) {
     this.switchBot = switchBot;
     this.pay = pay;
+    this.pill = pill;
     this.bot = createBot({
       token,
       intents: Intents.Guilds | Intents.GuildMessages | Intents.MessageContent,
@@ -51,6 +57,7 @@ export class DiscordBot {
           DiscordBot: this,
           SwitchBot: this.switchBot,
           Pay: this.pay,
+          Pill: this.pill,
           Payload: {
             bot,
             UserId: message.tag,
@@ -70,12 +77,26 @@ export class DiscordBot {
         );
         const switchBotHandler = new SwitchBotHandler();
         const payHandler = new PayHandler();
+        const pillHandler = new PillHandler();
 
         Promise.all([
           switchBotHandler.Handle(ctx),
           payHandler.Handle(ctx),
+          pillHandler.Handle(ctx),
         ]);
       },
     };
+  }
+
+  async NotifyMorningPillCheck() {
+    await this.sendMessage(this.pillCheckChannelID, "今日も飲んでね！");
+  }
+
+  async NotifyRemindPillCheck() {
+    const taken = await this.pill.IsTakenToday();
+
+    if (!taken) {
+      await this.sendMessage(this.pillCheckChannelID, "まだ飲んでないよ");
+    }
   }
 }

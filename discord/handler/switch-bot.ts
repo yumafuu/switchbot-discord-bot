@@ -65,12 +65,18 @@ export class SwitchBotHandler {
 
   events: { [key: string]: EventFunc } = {
     "電気けして": this.LightOff,
+    "電気消して": this.LightOff,
+    "おやすみ": this.LightOff,
     "リラックスモード": this.RelaxMode,
     "リラックス": this.RelaxMode,
     "冷房つけて": this.CoolerOn,
     "クーラーつけて": this.CoolerOn,
     "冷房とめて": this.AirConditionerOff,
+    "エアコンとめて": this.AirConditionerOff,
     "クーラーとめて": this.AirConditionerOff,
+    "冷房止めて": this.AirConditionerOff,
+    "エアコン止めて": this.AirConditionerOff,
+    "クーラー止めて": this.AirConditionerOff,
     "Botヘルプ": this.BotHelp,
     "botヘルプ": this.BotHelp,
   };
