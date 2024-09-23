@@ -8,24 +8,27 @@ export class Pill {
     this.db = db;
   }
 
-  Take() {
+  async Take() {
     const now = new Date().toLocaleString('ja-JP', {
       timeZone: 'Asia/Tokyo',
     })
     const today = now.split(' ')[0];
 
+    await this.db.read();
     this.db.data.pillChecks.push({
       date: today,
       taken: true,
     });
+    await this.db.write();
   }
 
-  IsTakenToday() {
+  async IsTakenToday() {
     const now = new Date().toLocaleString('ja-JP', {
       timeZone: 'Asia/Tokyo',
     })
     const today = now.split(' ')[0];
 
+    await this.db.read();
     return this.db.data.pillChecks.some((pill: PillCheck) => {
       return pill.date === today && pill.taken
     });
