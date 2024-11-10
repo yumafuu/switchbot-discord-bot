@@ -51,7 +51,7 @@ export class DiscordBot {
   private eventHander() {
     return {
       ready: (_bot: Bot, payload: { user: User }) => {
-        Logger.debug(`${payload.user.username} is ready!`);
+        Logger.info(`${payload.user.username} is ready!`);
       },
       messageCreate: (bot: Bot, message: Message) => {
         const ctx: Context = {
