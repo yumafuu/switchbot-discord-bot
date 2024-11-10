@@ -1,7 +1,7 @@
 import * as log from "https://deno.land/std@0.99.0/log/mod.ts";
 import { LogRecord } from "https://deno.land/std@0.99.0/log/logger.ts";
 
-const filename = "./log/app.log";
+const filename = "/tmp/log/app.log";
 
 const formatter = (logRecord: LogRecord) => {
   const { datetime, levelName, msg } = logRecord;
