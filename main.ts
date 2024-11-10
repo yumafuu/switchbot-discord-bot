@@ -41,4 +41,7 @@ Deno.cron("Diet", "0 23 * * *", async () => {
   await discordBot.NotifyDiet();
 });
 
-await discordBot.Run();
+await Promise.all([
+  discordBot.Run(),
+  Deno.serve((_: Request) => new Response("I'm living")),
+])
