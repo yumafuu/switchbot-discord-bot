@@ -15,16 +15,22 @@ const formatter = (logRecord: LogRecord) => {
 
 await log.setup({
   handlers: {
-    // console出力形式の定義
-    console: new log.handlers.ConsoleHandler("DEBUG", {
-      formatter,
-    }),
+    default: {
+      console: new log.handlers.ConsoleHandler("DEBUG", {
+        formatter,
+      }),
 
-    // file出力形式の定義
-    file: new log.handlers.FileHandler("DEBUG", {
-      filename,
-      formatter,
-    }),
+      // file出力形式の定義
+      file: new log.handlers.FileHandler("DEBUG", {
+        filename,
+        formatter,
+      }),
+    },
+    production: {
+      console: new log.handlers.ConsoleHandler("DEBUG", {
+        formatter,
+      }),
+    },
   },
 
   loggers: {
@@ -32,11 +38,15 @@ await log.setup({
       level: "DEBUG",
       handlers: ["console", "file"],
     },
+    production: {
+      level: "DEBUG",
+      handlers: ["console"]
+    }
   },
 });
 
-// getLogger()を無引数で実行すると"default"のloggerを取得する
-const Logger = log.getLogger();
+const loggerType = Deno.env.get("LOGGER_TYPE") || "default"
+const Logger = log.getLogger(loggerType);
 console.log(`logfile: ${filename}`);
 
 export { Logger };
