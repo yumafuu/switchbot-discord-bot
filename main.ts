@@ -26,12 +26,19 @@ const discordBot = new DiscordBot(
   config.DiscordBotToken,
 );
 
+// 8:00
 Deno.cron("Pill Morning", "0 23 * * *", async () => {
   await discordBot.NotifyMorningPillCheck();
 });
 
+// 19:00
 Deno.cron("Pill Remind", "0 10 * * *", async () => {
   await discordBot.NotifyRemindPillCheck();
+});
+
+// 9:00
+Deno.cron("Diet", "0 23 * * *", async () => {
+  await discordBot.NotifyDiet();
 });
 
 await discordBot.Run();
